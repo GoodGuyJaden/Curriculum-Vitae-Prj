@@ -112,11 +112,4 @@ public class Curriculum
 	{
 		return curriculum.size();
 	}
-	
-	
-	public static void main(String[]args)
-	{
-		
-	}
-	
 }

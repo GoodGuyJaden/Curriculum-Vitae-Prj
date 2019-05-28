@@ -124,7 +124,7 @@ public class Main
 												 	System.out.println("Inserisci il giorno tra 1 e 30 compresi");
 												 	while(day<1 || day>30)
 												 	{
-												 		day = sc.nextInt();
+												 		day = Integer.parseInt(sc.nextLine().replaceAll("\\D+", ""));
 												 	}
 												 	break;
 												 	 
@@ -132,26 +132,24 @@ public class Main
 					case 8: case 10: case 12:		System.out.println("Inserisci il giorno tra 1 e 31 compresi");
 												 	while(day<1 || day>31)
 												 	{
-												 		day = sc.nextInt();
+												 		day = Integer.parseInt(sc.nextLine().replaceAll("\\D+", ""));
 												 	}
 												 	break;
 												 	
 					case 2: 						System.out.println("Inserisci il giorno tra 1 e 28 compresi");
 												 	while(day<1 || day>28)
 												 	{
-												 		day = sc.nextInt();
+												 		day = Integer.parseInt(sc.nextLine().replaceAll("\\D+", ""));
 												 	}
 												 	break;
 				}	
 			}
-			catch(InputMismatchException e)
+			catch(NumberFormatException e)
 			{
 				System.out.println("Inserire solo numeri grazie.");
 				day = 0;
-				sc.nextLine();
 			}
 		}
-		sc.nextLine();
 		return day;
 	}
 	
@@ -163,16 +161,14 @@ public class Main
 			try
 			{
 				System.out.println("Inserisci il mese in numero");
-				month = sc.nextInt();
+				month = Integer.parseInt(sc.nextLine().replaceAll("\\D+", ""));
 			}
-			catch(InputMismatchException e)
+			catch(NumberFormatException e)
 			{
 				System.out.println("Inserire solo numeri grazie.");
-				sc.nextLine();
 			}
 			
 		}
-		sc.nextLine();
 		return month;
 	}
 	
@@ -184,40 +180,42 @@ public class Main
 			try
 			{
 				System.out.println("Inserisci l'anno");
-				year = sc.nextInt();
+				year = Integer.parseInt(sc.nextLine().replaceAll("\\D+", ""));
 			}
-			catch(InputMismatchException e)
+			catch(NumberFormatException e)
 			{
 				System.out.println("Inserire solo numeri grazie.");
-				sc.nextLine();
 			}
 			
 		}
-		sc.nextLine();
 		return year;
 	}
 	
 	public static void esempio()  //Se non si vuole inserire dei dati avviare questo metodo
 	{
-		curriculum.add(new StudioEffettuato(LocalDate.of(1969, 12, 25), LocalDate.of(1974, 01, 11), "Studio", "Itis Feltrinelli", new Diploma("Perito Informatico", "5", "10")));
+		curriculum.add(new StudioEffettuato(LocalDate.of(1969, 12, 25), LocalDate.of(1974, 01, 11), "Studio", "Itis Feltrinelli", new Diploma("Perito Informatico", "5", String.valueOf((int)(Math.random()*5+6)))));
 		curriculum.add(new EsperienzaLavorativa(LocalDate.of(1999, 12, 25), LocalDate.of(2005, 01, 11), "Lavoro", "Pernigotti", "1500", false, null));
-		curriculum.add(new StudioEffettuato(LocalDate.of(2076, 12, 25), LocalDate.of(2078, 01, 11), "Studio", "Itis Feltrinelli", new Diploma("Perito Informatico", "5", "10")));
+		curriculum.add(new StudioEffettuato(LocalDate.of(2076, 12, 25), LocalDate.of(2078, 01, 11), "Studio", "Itis Feltrinelli", new Diploma("Perito Informatico", "5", String.valueOf((int)(Math.random()*5+6)))));
 		curriculum.add(new EsperienzaLavorativa(LocalDate.of(2012, 12, 25), LocalDate.of(2015, 01, 11), "Lavoro", "Pernigotti", "1500", false, null));
 		curriculum.add(new EsperienzaLavorativa(LocalDate.of(2009, 12, 25), LocalDate.of(2010, 01, 11), "Lavoro", "Pernigotti", "1500", false, null));
-		curriculum.add(new StudioEffettuato(LocalDate.of(2005, 12, 25), LocalDate.of(2009, 01, 11), "Studio", "Itis Feltrinelli", new Diploma("Perito Informatico", "5", "10")));
+		curriculum.add(new StudioEffettuato(LocalDate.of(2005, 12, 25), LocalDate.of(2009, 01, 11), "Studio", "Itis Feltrinelli", new Diploma("Perito Informatico", "5", String.valueOf((int)(Math.random()*5+6)))));
 		System.out.println("Delle voci casuali sono state inserite al curriculum e ordinate come richiesto");
 	}
 	
 	public static void lav(LocalDate dataInizio, LocalDate dataFine, String descrizione) //metodo per inserire una voce EsperienzaLavorativa
 	{
-		String nomeAz;
+		String nomeAz = "";
 		String retribuzioneM = "";
 		boolean corsiAgg;
-		String tipoAggStringa = "c";
+		String tipoAggStringa = "";
 		ArrayList <String> tipoAgg = new ArrayList<String>();
 		
-		System.out.println("Inserisci il nome dell'azienda");
-		nomeAz = sc.nextLine();
+		while(nomeAz.equals("") || nomeAz.contains("  "))
+		{
+			System.out.println("Inserisci il nome dell'azienda");
+			nomeAz = sc.nextLine().replaceAll("[^A-Z a-z]", "");
+		}
+		
 		
 		while(retribuzioneM.equals(""))
 		{
@@ -226,12 +224,12 @@ public class Main
 		}
 		
 		System.out.println("Hai svolto corsi di aggiornamento?  y/n");
-		String scelta = sc.nextLine();
+		String scelta = sc.nextLine().replaceAll("[^A-Z a-z]", "");
 		if(scelta.equals("y"))
 		{
 			System.out.println("Inserisci tutti i corsi che hai frequentato e invece lascia in bianco quando hai finito");
 			
-			while(!(tipoAggStringa.equals("")))
+			while(tipoAggStringa.equals(""))
 			{
 				tipoAggStringa = sc.nextLine();
 				tipoAgg.add(tipoAggStringa);
@@ -249,14 +247,17 @@ public class Main
 	
 	public static void studi(LocalDate dataInizio, LocalDate dataFine, String descrizione) //metodo per inserire una voce StudioEffettuato
 	{
-		String nomeIst;
-		int anniStudio;
+		String nomeIst = "";
 		
-		System.out.println("Inserisci il nome dell'istituto in cui hai conseguito questi studi");
-		nomeIst = sc.nextLine();
+		while(nomeIst.equals("") || nomeIst.contains("  "))
+		{
+			System.out.println("Inserisci il nome dell'istituto in cui hai conseguito questi studi");
+			nomeIst = sc.nextLine().replaceAll("^[a-z A-Z]", "");	
+		}
+		
 		
 		System.out.println("Hai conseguito un diploma?  y/n");
-		String scelta = sc.nextLine();
+		String scelta = sc.nextLine().replaceAll("^[a-z A-Z]", "");
 		if(scelta.equals("y"))
 		{
 			curriculum.add(new StudioEffettuato(dataInizio, dataFine, descrizione, nomeIst, diploma()));
@@ -269,12 +270,16 @@ public class Main
 	
 	public static Diploma diploma() // metodo per creare il Diploma
 	{
-		String tipoDiploma;
+		String tipoDiploma = "";
 		String durataDiploma = "";
 		String votoDiploma = "";
 		
-		System.out.println("Inserisci il tipo di diploma conseguito");
-		tipoDiploma = sc.nextLine();
+		while(tipoDiploma.equals("") || tipoDiploma.contains("  "))
+		{
+			System.out.println("Inserisci il tipo di diploma conseguito");
+			tipoDiploma = sc.nextLine().replaceAll("^[a-z A-Z]", "");
+		}
+		
 		
 		while(durataDiploma.equals(""))
 		{
@@ -305,17 +310,15 @@ public class Main
 			try
 			{
 				System.out.println("Scegliere tra quelli disponibili.");
-				n = sc.nextInt();
+				n = Integer.parseInt(sc.nextLine().replaceAll("\\D+", ""));
 				out = curriculum.removeVoce(n);
 				System.out.println("Voce rimossa correttamente");
 				
-			}catch(InputMismatchException | IndexOutOfBoundsException e)
+			}catch(NumberFormatException | IndexOutOfBoundsException e)
 			{
 				System.out.println("Inserire solo i numeri indicati prego.");
-				sc.nextLine();
 			}
 		}
-		sc.nextLine();
 	}
 
 }

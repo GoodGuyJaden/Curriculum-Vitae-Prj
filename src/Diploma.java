@@ -1,7 +1,6 @@
 
 public class Diploma 
 {
-	//private boolean conseguito;    Non serve, è implicito il fatto che ci sia un diploma con l'esistenza stessa dell'oggetto
 	private String tipoDiploma;
 	private String durataDiploma;
 	private String votoDiploma;
@@ -12,7 +11,6 @@ public class Diploma
 		this.durataDiploma = durataDiploma;
 		this.votoDiploma = votoDiploma;
 	}
-	
 	
 	@Override
 	public String toString()
